@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="kk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>DENSAM — Денсаулық және фитнес</title>
+<meta name="description" content="DENSAM — жаттығу, тамақтану, ұйқы және recovery бір жерде. Жеке AI Coach, DENSAM Score және персональды жоспар.">
+<meta name="theme-color" content="#070908">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='9' fill='%23070908'/%3E%3Cpath d='M4 17h6l3-8 5 15 3-7h7' fill='none' stroke='%23B7FF3C' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<a class="skip" href="#main">Негізгі мазмұнға өту</a>
+
+<!-- ============ shared SVG assets ============ -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="gBody" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a382c"/><stop offset=".5" stop-color="#121a14"/><stop offset="1" stop-color="#070a08"/></linearGradient>
+    <linearGradient id="gRim" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#B7FF3C" stop-opacity="0"/><stop offset=".6" stop-color="#B7FF3C" stop-opacity=".9"/><stop offset="1" stop-color="#d6ff8a"/></linearGradient>
+    <filter id="fBlur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="14"/></filter>
+    <radialGradient id="gPlate" cx=".4" cy=".35" r=".8"><stop offset="0" stop-color="#26322a"/><stop offset="1" stop-color="#0f1511"/></radialGradient>
+  </defs>
+  <!-- DENSAM athlete: stylised sprint silhouette, rim-lit -->
+  <symbol id="runner" viewBox="0 0 600 760">
+    <g class="glow" filter="url(#fBlur)" fill="none" stroke="#B7FF3C" stroke-linecap="round" stroke-linejoin="round" opacity=".55">
+      <path d="M330 210 L395 285 L440 215" stroke-width="40"/><path d="M300 215 L235 290 L205 370" stroke-width="40"/>
+      <path d="M320 420 L410 495" stroke-width="64"/><path d="M410 495 L365 610 L402 632" stroke-width="48"/>
+      <path d="M290 425 L215 525" stroke-width="64"/><path d="M215 525 L128 612 L92 592" stroke-width="48"/>
+      <path d="M320 200 L300 420" stroke-width="100"/>
+    </g>
+    <g class="body" fill="none" stroke="url(#gBody)" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M300 215 L235 290 L205 370" stroke-width="30"/>
+      <path d="M215 525 L128 612 L92 592" stroke-width="38"/>
+      <path d="M290 425 L215 525" stroke-width="54"/>
+      <path d="M322 195 L302 415" stroke-width="92"/>
+      <path d="M335 150 L328 190" stroke-width="30"/>
+      <circle cx="352" cy="118" r="36" fill="url(#gBody)" stroke="none"/>
+      <path d="M320 420 L410 495" stroke-width="56"/>
+      <path d="M410 495 L365 610 L402 632" stroke-width="38"/>
+      <path d="M330 210 L395 285 L440 215" stroke-width="30"/>
+    </g>
+    <g class="sil" fill="none" stroke="#B7FF3C" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" opacity=".8">
+      <path d="M338 90 Q372 80 384 112 M386 118 Q384 150 356 156"/>
+      <path d="M360 205 Q386 250 350 330 M285 205 Q260 300 280 400"/>
+      <path d="M302 262 L352 262 M298 300 L346 300 M296 338 L342 338 M296 376 L336 376" stroke-dasharray="3 7" opacity=".7"/>
+      <path d="M345 440 Q410 470 424 500 M400 520 Q380 580 372 604"/>
+      <path d="M270 440 Q220 480 206 520 M178 556 Q140 590 112 604"/>
+      <path d="M345 235 L402 288 L436 228 M290 240 L238 292 L208 360" opacity=".7"/>
+    </g>
+  </symbol>
+  <symbol id="plate" viewBox="0 0 100 100">
+    <circle cx="50" cy="50" r="48" fill="#161d17" stroke="rgba(255,255,255,.08)"/>
+    <circle cx="50" cy="50" r="38" fill="url(#gPlate)" stroke="rgba(255,255,255,.06)"/>
+    <circle cx="40" cy="42" r="15" fill="var(--c1,#B7FF3C)" opacity=".9"/>
+    <circle cx="62" cy="50" r="12" fill="var(--c2,#e9e4cf)" opacity=".92"/>
+    <circle cx="48" cy="64" r="10" fill="var(--c3,#76C93A)" opacity=".9"/>
+    <circle cx="58" cy="34" r="5" fill="var(--c3,#76C93A)"/><circle cx="34" cy="58" r="4" fill="var(--c2,#e9e4cf)"/>
+    <path d="M18 26 A40 40 0 0 1 40 12" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+  <symbol id="hb" viewBox="0 0 240 28"><path d="M0 14h58l8-11 10 22 9-17 7 6h36l8-9 9 19 8-10h87" /></symbol>
+</svg>
+
+<!-- ============ loader ============ -->
+<div id="loader" role="status" aria-label="Жүктелуде">
+  <div class="ld">
+    <span class="logo"><i></i>DENSAM</span>
+    <svg viewBox="0 0 240 28" aria-hidden="true"><path d="M0 14h58l8-11 10 22 9-17 7 6h36l8-9 9 19 8-10h87"/></svg>
+  </div>
+</div>
+<div class="grain" aria-hidden="true"></div>
+<div class="cursor" id="cursor" aria-hidden="true"></div>
+
+<!-- ============ nav ============ -->
+<header class="nav" id="nav">
+  <a href="#top" class="logo" aria-label="DENSAM — басты бет"><i></i>DENSAM</a>
+  <nav class="nav__links" id="navlinks" aria-label="Негізгі навигация">
+    <a href="#features">Мүмкіндіктер</a><a href="#how">Қалай жұмыс істейді</a><a href="#coach">AI Coach</a><a href="#workouts">Жаттығулар</a><a href="#nutrition">Тамақтану</a><a href="#calc">Калькулятор</a><a href="#faq">FAQ</a>
+  </nav>
+  <div class="nav__r"><a class="btn btn--p btn--s" href="#coach">Бастау <span class="ar">→</span></a><button class="icon-btn burger" id="burger" aria-label="Мәзір" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M4 8h16M4 16h16"/></svg></button></div>
+</header>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<main id="main">
+<!-- ============ 01 HERO ============ -->
+<section class="hero" id="top" aria-labelledby="h1">
+  <div class="hero__bg"></div>
+  <div class="hero__glow"></div>
+  <div class="hero__fig" role="img" aria-label="DENSAM: жүгіріп бара жатқан спортшының жасыл жарықпен боялған силуэті және жүрек соғысын бейнелейтін 3D форма">
+    <svg viewBox="0 0 600 760" aria-hidden="true"><use href="#runner"/></svg>
+      </div>
+  <div class="hero__txt">
+    <div class="meta rv"><b>DENSAM / 01</b> &nbsp;—&nbsp; Денсаулық және фитнес</div>
+    <h1 id="h1" class="rv" style="--d:1"><span>Денеңді өзгерт<span class="dot">.</span></span><span>Өміріңді өзгерт<span class="dot">.</span></span></h1>
+    <p class="hero__sub rv" style="--d:2">Жаттығу. Тамақтану. Ұйқы.<br>Барлығы бір жерде.</p>
+    <p class="hero__def rv" style="--d:2">DENSAM — жаттығуды, тамақтануды, ұйқыны және recovery-ді біріктіретін жеке AI Coach қосымшасы.</p>
+    <div class="hero__cta rv" style="--d:3">
+      <a class="btn btn--p" href="#coach">Жеке жоспарымды бастау <span class="ar">→</span></a>
+      <a class="btn btn--g" href="#how">Қалай жұмыс істейді</a>
+    </div>
+  </div>
+
+  <aside class="hero__dash" aria-label="Бүгінгі денсаулық көрсеткіштері">
+    <div class="dash__h"><span class="meta"><b>TODAY</b></span><span class="meta live">Live</span></div>
+    <div class="dash__g">
+      <div class="dash__c"><span class="meta">❤️ Heart Rate</span><strong><span id="hrV">72</span><small>BPM</small></strong></div>
+      <div class="dash__c"><span class="meta">🔥 Calories</span><strong data-count="684">684<small>kcal</small></strong></div>
+      <div class="dash__c"><span class="meta">👟 Steps</span><strong><span id="stepV">8,421</span></strong></div>
+      <div class="dash__c"><span class="meta">💧 Water</span><strong>1.8<small>L</small></strong></div>
+    </div>
+    <svg class="hr-line" viewBox="0 0 240 28" preserveAspectRatio="none" aria-hidden="true"><path d="M0 14h58l8-11 10 22 9-17 7 6h36l8-9 9 19 8-10h87"/></svg>
+  </aside>
+
+  <div class="hero__foot">
+    <div class="scrollcue"><i></i><span class="meta">Төмен түс</span></div>
+    <div class="hero__chips meta"><span>AI Coach</span><span>·</span><span>Score</span><span>·</span><span>Recovery</span><span>·</span><span>Nutrition</span></div>
+  </div>
+</section>
+
+<section class="sec" id="features" aria-labelledby="plH">
+  <div class="wrap">
+    <div class="sec__head rv"><span class="meta"><b>DENSAM</b> — Не істейді</span><h2 id="plH">Төрт тірек.<br>Бір жүйе.</h2><p>DENSAM — денсаулыққа арналған сайт және қосымша: жаттығу, тамақтану, ұйқы және әдеттер бір жерде.</p></div>
+    <div class="pil">
+      <article class="pl rv"><span class="n">01</span><h3>ҚОЗҒАЛЫС</h3><p><span>Күш / Cardio / HIIT / Yoga</span>Әр деңгейге сай жаттығулар.</p></article>
+      <article class="pl rv"><span class="n">02</span><h3>ТАМАҚТАНУ</h3><p><span>Calories / Macros / Recipes</span>Диета емес — өзіңе сай жүйе.</p></article>
+      <article class="pl rv"><span class="n">03</span><h3>ҰЙҚЫ</h3><p><span>Sleep / Recovery</span>Күш — демалу кезінде жиналады.</p></article>
+      <article class="pl rv"><span class="n">04</span><h3>ӘДЕТТЕР</h3><p><span>Water / Steps / Consistency</span>Нәтиже — күнделікті таңдаулардан.</p></article>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--alt" id="how" aria-labelledby="howH">
+  <div class="wrap">
+    <div class="sec__head rv"><span class="meta"><b>DENSAM</b> — Қалай жұмыс істейді</span><h2 id="howH">Үш қарапайым қадам.</h2></div>
+    <ol class="steps">
+      <li class="rv"><span class="big">1</span><h3>Мақсатыңды айт</h3><p>AI Coach-қа мақсатыңды жаз: арықтау, бұлшықет жинау немесе энергия.</p></li>
+      <li class="rv" style="--d:1"><span class="big">2</span><h3>Жоспар ал</h3><p>Жаттығу, тамақтану және демалу жоспары сенің деңгейіңе бейімделеді.</p></li>
+      <li class="rv" style="--d:2"><span class="big">3</span><h3>Прогресті көр</h3><p>DENSAM Score мен графиктер әр күнгі өзгерісті көрсетеді.</p></li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ 03 TODAY: plan + score + briefing ============ -->
+<section class="sec" id="today" aria-labelledby="todayH">
+  <div class="wrap">
+    <div class="sec__head rv"><span class="meta"><b>DENSAM Score</b> — Сенің күнің</span><h2 id="todayH">Бір сан —<br>бүкіл күнің.</h2><p>Қозғалыс, тамақтану, ұйқы, recovery және тұрақтылық бір көрсеткішке жиналады.</p></div>
+
+    <div class="score">
+      <div class="score__gauge rv" id="scoreView">
+        <svg class="gauge" viewBox="0 0 200 200" role="img" aria-label="DENSAM Score 87 / 100">
+          <circle class="gauge__track" cx="100" cy="100" r="88" pathLength="100"/>
+          <circle class="gauge__bar" cx="100" cy="100" r="88" pathLength="100" data-gv="87"/>
+        </svg>
+        <div class="score__c"><span class="meta"><b>DENSAM SCORE</b></span><div class="big"><span data-count="87">0</span><small>/ 100</small></div></div>
+      </div>
+      <div class="score__list">
+        <div class="sc-row rv"><div><h4>Movement</h4><div class="meta">Қозғалыс</div></div><strong data-count="92">0</strong><div class="bar" style="--w:92%"><i></i></div></div>
+        <div class="sc-row rv" style="--d:1"><div><h4>Nutrition</h4><div class="meta">Тамақтану</div></div><strong data-count="81">0</strong><div class="bar" style="--w:81%"><i></i></div></div>
+        <div class="sc-row rv" style="--d:2"><div><h4>Sleep</h4><div class="meta">Ұйқы</div></div><strong data-count="88">0</strong><div class="bar" style="--w:88%"><i></i></div></div>
+        <div class="sc-row rv" style="--d:3"><div><h4>Recovery</h4><div class="meta">Қалпына келу</div></div><strong data-count="84">0</strong><div class="bar" style="--w:84%"><i></i></div></div>
+        <div class="sc-row rv" style="--d:4"><div><h4>Consistency</h4><div class="meta">Тұрақтылық</div></div><strong data-count="91">0</strong><div class="bar" style="--w:91%"><i></i></div></div>
+      </div>
+    </div>
+
+    <div class="brief" id="briefing" style="margin-top:clamp(56px,8vw,140px)">
+      <div class="brief__t rv"><span class="meta"><b>БҮГІНГІ BRIEFING</b></span><h3>Бүгін сен<br>жақсы қалпына келдің.</h3></div>
+      <div class="brief__stats rv" style="--d:2">
+        <div><span class="meta">Recovery</span><div class="big"><span data-count="87">0</span><span class="unit" style="font-size:.3em">%</span></div></div>
+        <div><span class="meta">Sleep</span><div class="big">7<span class="unit" style="font-size:.3em">h</span> 42<span class="unit" style="font-size:.3em">m</span></div></div>
+      </div>
+      <div class="rec rv"><div><span class="meta">AI recommendation</span><p>Бүгін күш жаттығуына қолайлы күн.</p></div><a class="btn btn--p" href="#workouts">Жаттығуды көру <span class="ar">→</span></a></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 04 AI COACH ============ -->
+<section class="sec sec--alt" id="coach" aria-labelledby="coachH">
+  <div class="wrap coach">
+    <div class="coach__intro rv">
+      <span class="meta"><b>DENSAM / 04</b> — AI Coach</span>
+      <h2 id="coachH">Сенің жеке<br><span style="white-space:nowrap">AI Coach-ың.</span></h2>
+      <p>Мақсатыңды айт. Қалғанын DENSAM ойлайды.</p>
+      <div class="analyze" aria-label="AI Coach талдайтын деректер">
+        <div><span>Белсенділік</span><div class="bar" style="--w:92%"><i></i></div><b>92</b></div>
+        <div><span>Ұйқы</span><div class="bar" style="--w:88%"><i></i></div><b>88</b></div>
+        <div><span>Жаттығулар</span><div class="bar" style="--w:79%"><i></i></div><b>79</b></div>
+        <div><span>Recovery</span><div class="bar" style="--w:84%"><i></i></div><b>84</b></div>
+        <div><span>Әдеттер</span><div class="bar" style="--w:91%"><i></i></div><b>91</b></div>
+      </div>
+    </div>
+    <div class="chat rv" style="--d:2" role="region" aria-label="AI Coach чаты">
+      <div class="chat__h"><div class="orb" id="orb" aria-hidden="true"></div><div><strong>DENSAM Coach</strong><small id="coachSt">● онлайн</small></div></div>
+      <div class="chat__log" id="chatLog" aria-live="polite"></div>
+      <div class="chat__sug" id="chatSug"></div>
+      <form class="chat__f" id="chatForm" novalidate>
+        <label class="sr" for="chatIn">Хабарлама</label>
+        <input id="chatIn" autocomplete="off" placeholder="Мақсатыңды жаз…" maxlength="200">
+        <button class="btn btn--p" type="submit" aria-label="Жіберу">→</button>
+      </form>
+      <p class="chat__disc">DENSAM Coach — дәрігер емес. Ұсыныстар ақпараттық сипатта. Денсаулығыңа қатысты сұрақтар бойынша маманға жүгін.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 05 WORKOUTS ============ -->
+<section class="sec" id="workouts" aria-labelledby="woH">
+  <div class="wrap">
+    <div class="sec__head rv"><span class="meta"><b>DENSAM / 05</b> — Smart Workout</span><h2 id="woH">Бүгінгі<br>жаттығуың.</h2></div>
+    <div class="wk">
+      <div class="wk__tabs tabs rv" id="woTabs" role="tablist" aria-label="Жаттығу түрлері"></div>
+      <article class="wk__feat rv" id="woFeat" aria-live="polite">
+        <div class="fig" aria-hidden="true"><svg viewBox="0 0 600 760"><use href="#runner"/></svg></div>
+        <span class="meta" id="woCat"></span>
+        <h3 id="woName"></h3>
+        <div class="wk__facts">
+          <div><span class="meta">Duration</span><strong id="woDur"></strong></div>
+          <div><span class="meta">Difficulty</span><strong id="woLvl"></strong></div>
+          <div><span class="meta">Calories</span><strong id="woKcal"></strong></div>
+        </div>
+        <div><button class="btn btn--p" id="woStart">Жаттығу жоспарын көру <span class="ar">→</span></button></div>
+      </article>
+      <div class="wk__list rv" style="--d:2" id="woList" role="list"></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 07 NUTRITION ============ -->
+<section class="sec" id="nutrition" aria-labelledby="nuH">
+  <div class="wrap">
+    <div class="nu">
+      <div class="nu__title sec__head rv" style="margin-bottom:0"><span class="meta"><b>DENSAM / 07</b> — Тамақтану</span><h2 id="nuH">Не диета.<br>Жүйе.</h2></div>
+      <div class="macros">
+        <div class="mc rv"><div><span class="meta">Calories</span><div class="big"><span data-count="1840" data-fmt="n">0</span> <span class="u">/ 2,200</span></div></div><span class="pc">84%</span><div class="bar" style="--w:84%"><i></i></div></div>
+        <div class="mc rv" style="--d:1"><div><span class="meta">Protein</span><div class="big"><span data-count="124">0</span> <span class="u">/ 150 g</span></div></div><span class="pc">83%</span><div class="bar" style="--w:83%"><i></i></div></div>
+        <div class="mc rv" style="--d:2"><div><span class="meta">Carbs</span><div class="big"><span data-count="186">0</span> <span class="u">/ 250 g</span></div></div><span class="pc">74%</span><div class="bar" style="--w:74%"><i></i></div></div>
+        <div class="mc rv" style="--d:3"><div><span class="meta">Fats</span><div class="big"><span data-count="54">0</span> <span class="u">/ 70 g</span></div></div><span class="pc">77%</span><div class="bar" style="--w:77%"><i></i></div></div>
+      </div>
+      <div class="meals">
+        <article class="meal rv"><svg class="meal__plate" aria-hidden="true"><use href="#plate"/></svg><span class="meta">Таңғы ас</span><h4>Protein Oat Bowl</h4><p>P 28 · C 52 · F 12</p><div class="kc">420 <span class="unit">kcal</span></div></article>
+        <article class="meal rv" style="--d:1;--c1:#ffcf6b;--c2:#f4f0df;--c3:#9be05a"><svg class="meal__plate" aria-hidden="true"><use href="#plate"/></svg><span class="meta">Түскі ас</span><h4>Chicken Rice Bowl</h4><p>P 46 · C 64 · F 14</p><div class="kc">610 <span class="unit">kcal</span></div></article>
+        <article class="meal rv" style="--d:2;--c1:#f6f2e8;--c2:#c46bff;--c3:#ff6b8b"><svg class="meal__plate" aria-hidden="true"><use href="#plate"/></svg><span class="meta">Snack</span><h4>Greek Yogurt &amp; Berries</h4><p>P 18 · C 24 · F 6</p><div class="kc">220 <span class="unit">kcal</span></div></article>
+        <article class="meal rv" style="--d:3;--c1:#ff9d7a;--c2:#e9e4cf;--c3:#4fb84a"><svg class="meal__plate" aria-hidden="true"><use href="#plate"/></svg><span class="meta">Кешкі ас</span><h4>Salmon &amp; Greens</h4><p>P 32 · C 46 · F 22</p><div class="kc">590 <span class="unit">kcal</span></div></article>
+      </div>
+    </div>
+
+    <div class="ainu" id="ainu">
+      <div class="ainu__l rv">
+        <span class="meta"><b>AI Nutrition</b></span>
+        <h3>Сұра.<br>DENSAM ұсынады.</h3>
+        <div class="chips">
+          <button class="chip" data-ask="menu">Бүгін не жеймін?</button>
+          <button class="chip" data-ask="egg">Менде тек жұмыртқа мен күріш бар.</button>
+        </div>
+        <p class="note" style="margin-top:24px">Ұсыныстар жалпы сипатта және медициналық кеңес емес. Аллергия немесе ауру болса, маманмен кеңес.</p>
+      </div>
+      <div class="ainu__r rv" style="--d:2" id="dishOut" aria-live="polite"><div class="ai-load"><span class="meta">Сұрақты таңда</span><span class="mut">AI сенің калория мен макро мақсатыңа сай тағам ұсынады.</span></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ 08 CALCULATOR ============ -->
+<section class="sec sec--alt" id="calc" aria-labelledby="calcH">
+  <div class="wrap">
+    <div class="sec__head rv"><span class="meta"><b>DENSAM / 08</b> — Health Calculator</span><h2 id="calcH">Өз саныңды біл.</h2><p>BMI мен күнделікті калорияны есепте.</p></div>
+    <div class="calc">
+      <form id="calcForm" class="rv" novalidate>
+        <div class="row2">
+          <div class="fld"><label for="cAge">Жас</label><input type="number" id="cAge" inputmode="numeric" value="25" min="12" max="90" aria-describedby="eAge"><span class="er" id="eAge"></span></div>
+          <div class="fld"><label for="cH">Бой, см</label><input type="number" id="cH" inputmode="numeric" value="178" min="120" max="230" aria-describedby="eH"><span class="er" id="eH"></span></div>
+          <div class="fld"><label for="cW">Салмақ, кг</label><input type="number" id="cW" inputmode="decimal" value="71" min="30" max="250" step=".1" aria-describedby="eW"><span class="er" id="eW"></span></div>
+        </div>
+        <fieldset class="fld"><legend>Жыныс</legend><div class="seg"><label><input type="radio" name="sex" value="m" checked><span>Ер</span></label><label><input type="radio" name="sex" value="f"><span>Әйел</span></label></div></fieldset>
+        <div class="fld"><label for="cAct">Белсенділік</label><select id="cAct"><option value="1.2">Төмен — отырықшы жұмыс</option><option value="1.375">Жеңіл — аптасына 1–3 жаттығу</option><option value="1.55" selected>Орташа — аптасына 3–5 жаттығу</option><option value="1.725">Жоғары — аптасына 6–7 жаттығу</option><option value="1.9">Өте жоғары — күніне 2 жаттығу</option></select></div>
+        <button class="btn btn--p" type="submit" id="calcBtn">Есептеу <span class="ar">→</span></button>
+      </form>
+      <div class="calc__res rv" style="--d:2" aria-live="polite">
+        <div class="bmi"><span class="meta"><b>BMI</b></span><div class="big" id="bmiV">22.4</div><div class="bmi__s" id="bmiS" style="--x:36%"><i></i></div><div class="bmi__l meta"><span>Салмақ жетіспейді</span><span id="bmiCat" class="accent">Қалыпты</span><span>Артық</span></div></div>
+        <div class="res3"><div><span class="meta">Daily Calories</span><strong id="kcalV">2,540</strong></div><div><span class="meta">Activity Level</span><strong id="actV" style="font-size:clamp(22px,2.4vw,34px)">Орташа</strong></div></div>
+        <div><span class="meta"><b>General Recommendations</b></span><ul class="recs" id="recs" style="margin-top:12px"></ul></div>
+        <p class="note">Бұл көрсеткіштер ақпараттық мақсатта берілген және медициналық диагноз болып саналмайды.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 09 RECOVERY + SLEEP ============ -->
+<section class="sec" id="recovery" aria-labelledby="rcH">
+  <div class="wrap">
+    <div class="sec__head rv"><span class="meta"><b>DENSAM / 09</b> — Recovery &amp; Sleep</span><h2 id="rcH">Қалпына келу —<br>жаттығудың бөлігі.</h2></div>
+    <div class="rs">
+      <div class="rec1 rv">
+        <span class="meta"><b>RECOVERY</b></span>
+        <div class="gwrap">
+          <svg class="gauge" viewBox="0 0 200 200" role="img" aria-label="Recovery"><circle class="gauge__track" cx="100" cy="100" r="88" pathLength="100"/><circle class="gauge__bar" id="rcBar" cx="100" cy="100" r="88" pathLength="100" data-gv="87"/></svg>
+          <div class="score__c"><div class="big"><span id="rcV">0</span><small>%</small></div></div>
+        </div>
+        <div class="states" id="rcStates"><span class="st g on"><i></i>Ready</span><span class="st y"><i></i>Moderate</span><span class="st r"><i></i>Rest</span></div>
+        <div class="airec"><span class="meta"><b>AI</b></span><p id="rcAi">Бүгін жоғары интенсивті жаттығу жасауға болады.</p></div>
+        <div class="slider" style="width:min(100%,420px)"><label for="rcSl">Түнгі ұйқы (симулятор) <b id="rcSlV">7.7 сағ</b></label><input class="rng" type="range" id="rcSl" min="4" max="9" step=".1" value="7.7"></div>
+        <p class="note">Recovery — жалпы бағдар. Қатты шаршау, ауырсыну немесе жүрек соғысының ауытқуы болса, маманға көріну керек.</p>
+      </div>
+      <div class="sleep rv" style="--d:2" id="sleepCard">
+        <span class="meta"><b>SLEEP</b> · 23:10 → 06:52</span>
+        <div class="sleep__t"><div class="big">7<span>h</span>42<span>m</span></div><span class="meta" style="color:#9aa6ff">Sleep score 88</span></div>
+        <div style="position:relative"><svg class="sleep__svg" id="sleepSvg" viewBox="0 0 600 200" role="img" aria-label="Ұйқы кезеңдерінің timeline: deep, REM, light"></svg><div class="sleep__tip" id="sleepTip"></div></div>
+        <div class="sleep__ax" style="padding-left:6.7%"><span>23:10</span><span>01:00</span><span>03:00</span><span>05:00</span><span>06:52</span></div>
+        <div class="sleep__st">
+          <button style="--c:#7c8cff" data-stage="deep"><span class="meta">Deep sleep</span><strong>1h 48m</strong></button>
+          <button style="--c:#b98cff" data-stage="rem"><span class="meta">REM</span><strong>1h 32m</strong></button>
+          <button style="--c:#4a5280" data-stage="light"><span class="meta">Light</span><strong>4h 22m</strong></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 10 WATER / HABITS / STREAK / ACHIEVEMENTS ============ -->
+<section class="sec sec--alt" id="habits" aria-labelledby="hbH">
+  <div class="wrap">
+    <div class="sec__head rv"><span class="meta"><b>DENSAM / 10</b> — Әдеттер</span><h2 id="hbH">Кішкентай әдет.<br>Үлкен сериясы.</h2></div>
+    <div class="hb">
+      <div class="water rv">
+        <span class="meta"><b>WATER</b></span>
+        <svg class="bottle" id="bottle" viewBox="0 0 120 300" role="img" aria-label="Су бөтелкесі" aria-describedby="wPct">
+          <defs><clipPath id="bclip"><path d="M44 8h32v28c0 10 22 22 22 44v196c0 12-8 20-20 20H42c-12 0-20-8-20-20V80c0-22 22-34 22-44z"/></clipPath>
+          <linearGradient id="gw" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9be05a"/><stop offset="1" stop-color="#3fa0d8"/></linearGradient></defs>
+          <path d="M44 8h32v28c0 10 22 22 22 44v196c0 12-8 20-20 20H42c-12 0-20-8-20-20V80c0-22 22-34 22-44z" fill="rgba(255,255,255,.03)"/>
+          <g clip-path="url(#bclip)"><g class="lq" id="lq" style="transform:translateY(100%)"><g class="wave"><path d="M-60 12q15-10 30 0t30 0 30 0 30 0 30 0 30 0 30 0 30 0 30 0 30 0v300H-60z" fill="url(#gw)" opacity=".92"/></g></g>
+            <g stroke="rgba(255,255,255,.25)" stroke-width="1.2"><path d="M22 100h12M22 150h8M22 200h12M22 250h8"/></g></g>
+          <path d="M44 8h32v28c0 10 22 22 22 44v196c0 12-8 20-20 20H42c-12 0-20-8-20-20V80c0-22 22-34 22-44z" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="1.6"/>
+          <rect x="42" y="0" width="36" height="12" rx="4" fill="#1a221b" stroke="rgba(255,255,255,.3)"/>
+        </svg>
+        <div class="big"><span id="wL">1.8</span><span class="unit">L / 2.5 L</span></div>
+        <p id="wPct" class="mut">Мақсаттың 72%-ы орындалды.</p>
+        <div class="water__row"><button class="btn btn--p btn--s" id="wAdd">+250 ml</button><button class="btn btn--g btn--s" id="wReset" aria-label="Суды қайта бастау">Қайта</button></div>
+      </div>
+      <div class="hab rv" style="--d:2">
+        <span class="meta"><b>HABIT TRACKER</b> · осы апта</span>
+        <div class="hab__grid" id="habGrid" style="margin-top:20px" role="group" aria-label="Әдеттер кестесі"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 11 PROGRESS ============ -->
+<section class="sec" id="progress" aria-labelledby="pgH">
+  <div class="wrap">
+    <div class="pg__top rv">
+      <div class="sec__head" style="margin:0"><span class="meta"><b>DENSAM / 11</b> — Progress</span><h2 id="pgH">Өзгерісіңді көр.</h2></div>
+      <div class="tabs" id="pgRange" role="group" aria-label="Мерзім"></div>
+    </div>
+    <div class="pg__metrics tabs rv" id="pgMetrics" role="group" aria-label="Көрсеткіш"></div>
+    <div class="pg__big rv"><span class="big" id="pgVal">74.9</span><span class="unit" id="pgUnit">kg</span><span class="pg__chg" id="pgChg"></span></div>
+    <div class="chart rv" id="chart">
+      <svg id="chartSvg" viewBox="0 0 900 320" tabindex="0" role="img" aria-label="Прогресс графигі. Оң және сол көрсеткілерді қолданып нүктелерді қарауға болады."></svg>
+      <div class="tip" id="tip"><span class="meta" id="tipD"></span><b id="tipV"></b></div>
+    </div>
+
+    <div class="wkly" id="weekly" style="margin-top:clamp(72px,10vw,160px)">
+      <div class="wkly__h rv"><span class="meta"><b>WEEKLY AI REPORT</b></span><h3 style="font-size:clamp(34px,4.6vw,72px);letter-spacing:-.05em;line-height:.96;margin-top:16px">YOUR WEEK</h3></div>
+      <div class="wkly__n">
+        <div class="wn rv"><span class="meta">Workouts</span><div class="big"><span data-count="12">0</span></div></div>
+        <div class="wn rv" style="--d:1"><span class="meta">Steps</span><div class="big"><span data-count="84">0</span><small>K</small></div></div>
+        <div class="wn rv" style="--d:2"><span class="meta">Water</span><div class="big"><span data-count="52">0</span><small>L</small></div></div>
+        <div class="wn rv" style="--d:3"><span class="meta">Sleep</span><div class="big"><span data-count="51">0</span><small>h</small></div></div>
+      </div>
+      <div class="wkly__ai rv" style="--d:2">
+        <div><span class="meta"><b>AI summary</b></span><div class="big" style="margin-top:14px">+<span data-count="14">0</span>%</div></div>
+        <p>Өткен аптаға қарағанда белсенділігің 14% өсті.</p>
+        <div class="mini-b" aria-hidden="true"><i style="--h:50%;--k:0"></i><i style="--h:70%;--k:1"></i><i style="--h:40%;--k:2"></i><i style="--h:85%;--k:3" class="hi"></i><i style="--h:60%;--k:4"></i><i style="--h:95%;--k:5" class="hi"></i><i style="--h:75%;--k:6"></i></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--alt" id="faq" aria-labelledby="faqH">
+  <div class="wrap">
+    <div class="sec__head rv"><span class="meta"><b>FAQ</b></span><h2 id="faqH">Жиі<br>сұрақтар.</h2></div>
+    <div class="faq rv">
+      <details><summary>DENSAM дәрігер ме?</summary><p>Жоқ. DENSAM — ақпараттық және мотивациялық құрал, медициналық диагноз қоймайды.</p></details>
+      <details><summary>AI Coach қалай жұмыс істейді?</summary><p>Белсенділік, ұйқы, recovery және әдеттерді қарап, жалпы ұсыныс береді. Бұл сайттағы чат — демо.</p></details>
+      <details><summary>Деректерім қайда сақталады?</summary><p>Бұл демода барлығы тек сенің браузеріңде сақталады.</p></details>
+      <details><summary>Калькулятор дәл ме?</summary><p>Нәтиже шамамен және ақпараттық мақсатта берілген.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 13 FINAL ============ -->
+<section class="final" id="final" aria-labelledby="finH">
+  <svg class="hb-l" viewBox="0 0 1600 60" preserveAspectRatio="none" aria-hidden="true"><path d="M0 30h560l20-24 24 50 22-38 14 12h260l18-20 22 44 18-22h642"/></svg>
+  <div>
+    <span class="meta rv"><b>DENSAM</b></span>
+    <h2 id="finH" class="rv" style="--d:1">Бүгін баста<span class="accent">.</span></h2>
+    <p class="rv" style="--d:2">Кішкентай қадам.<br>Күн сайын.<br>Үлкен өзгеріс.</p>
+    <div class="rv" style="--d:3"><a class="btn btn--p" href="#coach">DENSAM-ды бастау <span class="ar">→</span></a></div>
+  </div>
+</section>
+</main>
+
+<footer class="foot">
+  <div class="foot__g">
+    <div class="foot__b"><span class="logo"><i></i>DENSAM</span><p>Health is a daily choice.</p></div>
+    <nav aria-label="Өнім"><span class="meta">Өнім</span><a href="#features">Өнім</a><a href="#workouts">Жаттығулар</a><a href="#nutrition">Тамақтану</a><a href="#coach">AI Coach</a><a href="#progress">Прогресс</a><a href="#faq">FAQ</a></nav>
+    <nav aria-label="Әлеуметтік желілер"><span class="meta">Желілер</span><a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a><a href="https://tiktok.com" target="_blank" rel="noopener">TikTok</a><a href="https://youtube.com" target="_blank" rel="noopener">YouTube</a></nav>
+  </div>
+  <div class="foot__s"><p class="note">DENSAM медициналық қызмет емес және дәрігердің кеңесін алмастырмайды. AI ұсыныстары ақпараттық мақсатта берілген.</p><span class="meta">© 2026 DENSAM</span></div>
+</footer>
+
+<!-- ============ dialogs ============ -->
+<dialog id="modal" aria-label="Мәлімет"><div class="mdl" id="mdl"></div></dialog>
+
+<script src="app.js" defer></script>
+</body>
+</html>
